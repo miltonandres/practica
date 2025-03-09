@@ -1,12 +1,10 @@
 package ec.practica.springboot.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cliente")
@@ -22,22 +20,13 @@ public class Cliente {
 	@Column(name = "estado")
 	private String estado;
 
-	@Column(name = "price")
-	private BigDecimal price;
-
-	@CreationTimestamp
-	private Date createdAt;
-
-	@CreationTimestamp
-	private Date updatedAt;
-
-	@OneToOne
-	@MapsId
-	@JoinColumn(name = "identificacion")
-
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Cuenta> cuenta;
 
+	@OneToOne
+	@JoinColumn(name = "identificacion")
+	@JsonIgnore
 	private Persona persona;
 
 	public long getId() {
@@ -62,30 +51,6 @@ public class Cliente {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public List<Cuenta> getCuenta() {

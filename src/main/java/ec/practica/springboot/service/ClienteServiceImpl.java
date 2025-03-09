@@ -13,40 +13,35 @@ import ec.practica.springboot.repository.ClienteRepository;
 
 @Service
 @Transactional
-public class ClienteServiceImpl implements ClienteService {
+public class ClienteServiceImpl implements CrudService<Cliente> {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
 
 	@Override
-	public Cliente createcliente(Cliente cliente) {
+	public Cliente create(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
 
 	@Override
-	public Cliente updatecliente(Cliente cliente) {
-		Optional<Cliente> clienteDb = this.clienteRepository.findById(cliente.getId());
-
-		if (clienteDb.isPresent()) {
-			Cliente clienteUpdate = clienteDb.get();
-			clienteUpdate.setId(cliente.getId());
-			clienteUpdate.setClave(cliente.getClave());
-			clienteUpdate.setEstado(cliente.getEstado());
-			clienteRepository.save(clienteUpdate);
-			return clienteUpdate;
-		} else {
-			throw new ResourceNotFoundException("Record not found with id : " + cliente.getId());
-		}
+	public Cliente update(Cliente cliente) {
+		return clienteRepository.save(cliente);
 	}
 
 	@Override
-	public List<Cliente> getAllcliente() {
+	public void delete(long id) {
+		throw new UnsupportedOperationException("Unimplemented method 'delete'");
+	}
+
+	@Override
+	public List<Cliente> getAllItems() {
+		// TODO Auto-generated method stub
 		return this.clienteRepository.findAll();
 	}
 
 	@Override
-	public Cliente getclienteById(long clienteId) {
-
+	public Cliente getById(long clienteId) {
+		// TODO Auto-generated method stub
 		Optional<Cliente> clienteDb = this.clienteRepository.findById(clienteId);
 
 		if (clienteDb.isPresent()) {
@@ -54,18 +49,6 @@ public class ClienteServiceImpl implements ClienteService {
 		} else {
 			throw new ResourceNotFoundException("Record not found with id : " + clienteId);
 		}
-	}
-
-	@Override
-	public void deletecliente(long clienteId) {
-		Optional<Cliente> clienteDb = this.clienteRepository.findById(clienteId);
-
-		if (clienteDb.isPresent()) {
-			this.clienteRepository.delete(clienteDb.get());
-		} else {
-			throw new ResourceNotFoundException("Record not found with id : " + clienteId);
-		}
-
 	}
 
 }

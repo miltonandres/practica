@@ -14,8 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ec.practica.springboot.model.Movimiento;
+import ec.practica.springboot.service.MovimientoServiceImpl;
+
 @RestController
 @RequestMapping("/api")
 public class MovimientoController {
+    @Autowired
+    private MovimientoServiceImpl movimientoServicio;
+
+    @GetMapping("/movimientos")
+    public ResponseEntity<List<Movimiento>> getAllMovimiento() {
+        return ResponseEntity.ok().body(movimientoServicio.getAllItems());
+    }
+
+    @GetMapping("/Movimientos/{id}")
+    public ResponseEntity<Movimiento> getMovimientoById(@PathVariable long id) {
+        return ResponseEntity.ok().body(movimientoServicio.getById(id));
+    }
+
+    @PostMapping("/Movimientos")
+    public ResponseEntity<Movimiento> createMovimiento(@RequestBody Movimiento Movimiento) {
+        return ResponseEntity.ok().body(this.movimientoServicio.create(Movimiento));
+    }
+
+    @PutMapping("/Movimientos/{id}")
+    public ResponseEntity<Movimiento> updateMovimiento(@PathVariable long id, @RequestBody Movimiento movimiento) {
+        movimiento.setIdMovimiento(id);
+        return ResponseEntity.ok().body(this.movimientoServicio.update(movimiento));
+    }
+
+    @DeleteMapping("/Movimientos/{id}")
+    public HttpStatus deleteMovimiento(@PathVariable long id) {
+        this.movimientoServicio.delete(id);
+        return HttpStatus.OK;
+    }
 
 }

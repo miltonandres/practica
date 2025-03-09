@@ -1,5 +1,7 @@
 package ec.practica.springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,8 +18,8 @@ public class Persona {
     private String direccion;
     private String telefono;
 
-    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "persona")
+    @JsonIgnore
     private Cliente cliente;
 
     public long getIdentificacion() {

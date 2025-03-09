@@ -1,6 +1,9 @@
 package ec.practica.springboot.model;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -26,7 +29,12 @@ public class Cuenta {
 
     @ManyToOne
     @JoinColumn(name = "id")
+    @JsonIgnore
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Movimiento> movimiento;
 
     public long getIdCuenta() {
         return idCuenta;
@@ -74,6 +82,14 @@ public class Cuenta {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<Movimiento> getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(List<Movimiento> movimiento) {
+        this.movimiento = movimiento;
     }
 
 }
